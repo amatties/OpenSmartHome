@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +23,27 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
+    
+      public function index()
+    {
+        
+        
+        $users = User::all()->except(Auth::user()->id);
+
+        return view('users_list', compact('users'));
+    }
+    
+    
+     public function destroy($id)
+    {
+         $reg = User::find($id);
+
+        $reg->delete();
+        return redirect()->route('users.index')
+                        ->with('status', $reg->name . ' Deletado com Sucesso');
+    
+    }
+
 
     use RegistersUsers;
 
@@ -28,17 +52,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+    
 
     /**
      * Get a validator for an incoming registration request.
@@ -66,7 +87,26 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => bcrypt($data['password']),
         ]);
     }
+    
+    
+    
+    
+     public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+        //desativa o login automatico ao cadastrar um novo usuario
+       // $this->guard()->login($user);
+        
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    
+        
+    }
+    
+    
 }
