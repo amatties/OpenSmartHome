@@ -12,7 +12,16 @@
 */
 
 
+Route::get('/', function () {
+    return view('index');
+});
+
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('index');
-Route::resource('/users', 'Auth\RegisterController')->middleware('auth');
+Route::get('/home', 'HomeController@index')->name('index');
+Route::resource('/users', 'Auth\RegisterController');
+
+Route::resource('/light', 'LightController');
+Route::resource('/device', 'DeviceController');
+Route::resource('/module', 'ModuleController');
+//Route::get('command/{msg}/{topic}','ligthController@command')->name('command.msg');uth');
