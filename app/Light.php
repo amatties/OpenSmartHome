@@ -12,12 +12,12 @@ class Light extends Model
 
     
     public function module() {
-      return $this->belongsTo('App\module');
+      return $this->belongsTo('App\Module');
     }
     
     public function shedules() {
 
-        return $this->belongsToMany('App\schedule', 'schedule_light', 'schedule_id', 'light_id');
+        return $this->belongsToMany('App\Schedule', 'schedule_light', 'schedule_id', 'light_id');
         
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\module;
+use App\Module;
 
 class ModuleController extends Controller
 {
@@ -14,7 +14,7 @@ class ModuleController extends Controller
      */
     public function index()
     {
-         $modules = \App\module::all();
+         $modules = \App\Module::all();
 
         return view('module_list', compact('modules'));
     }
@@ -42,7 +42,7 @@ class ModuleController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        $inc = module::create($dados);
+        $inc = Module::create($dados);
 
         if ($inc) {
             return redirect()->route('module.index')->with('status', $request->name . ' Incluido! ');
@@ -68,7 +68,7 @@ class ModuleController extends Controller
      */
     public function edit($id)
     {
-        $reg = module::find($id);
+        $reg = Module::find($id);
         $acao = 2;
        
         return view('module_form', compact('reg', 'acao'));
@@ -85,7 +85,7 @@ class ModuleController extends Controller
     {
         $dados = $request->all();
 
-        $reg = module::find($id);
+        $reg = Module::find($id);
 
         $alt = $reg->update($dados);
 
@@ -102,7 +102,7 @@ class ModuleController extends Controller
      */
     public function destroy($id)
     {
-        $reg = module::find($id);
+        $reg = Module::find($id);
 
         $reg->delete();
         return redirect()->route('module.index')

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\device;
-use App\module;
+use App\Device;
+use App\Module;
 
 
 class DeviceController extends Controller
@@ -16,7 +16,7 @@ class DeviceController extends Controller
      */
      public function index()
     {
-         $devices = device::all();
+         $devices = Device::all();
         
 
         return view('device_list', compact('devices'));
@@ -30,7 +30,7 @@ class DeviceController extends Controller
     public function create()
     {
           $acao = 1;
-          $modules = module::orderBy('name')->get();
+          $modules = Module::orderBy('name')->get();
 
 
 
@@ -46,7 +46,7 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        $inc = device::create($dados);
+        $inc = Device::create($dados);
 
         if ($inc) {
             return redirect()->route('device.index')->with('status', $request->nome . ' Incluido! ');
@@ -72,8 +72,8 @@ class DeviceController extends Controller
      */
     public function edit($id)
     {
-        $reg = device::find($id);
-        $modules = module::orderBy('name')->get();
+        $reg = Device::find($id);
+        $modules = Module::orderBy('name')->get();
         $acao = 2;
        
         return view('device_form', compact('reg', 'acao','modules'));
@@ -90,7 +90,7 @@ class DeviceController extends Controller
     {
           $dados = $request->all();
 
-        $reg = device::find($id);
+        $reg = Device::find($id);
 
         $alt = $reg->update($dados);
 
@@ -107,7 +107,7 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        $reg = device::find($id);
+        $reg = Device::find($id);
 
         $reg->delete();
         return redirect()->route('device.index')

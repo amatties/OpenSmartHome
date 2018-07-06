@@ -63,7 +63,7 @@
           <td>{{$light->port_status}}</td>
           <td>{{$light->module->name}}</td>
           <td>
-          
+           <a href="{{route('command.msg', [$light->port ,$light->port_status, $light->id, $light->module->pub_topic])}}" class="btn btn-primary" role="button">Enviar Comando</a>
           <a href="{{route('light.edit', $light->id)}}" class="btn btn-warning" role="button"> Alterar </a>
           
           <form style="display: inline-block;"

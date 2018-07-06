@@ -24,4 +24,4 @@ Route::resource('/users', 'Auth\RegisterController');
 Route::resource('/light', 'LightController');
 Route::resource('/device', 'DeviceController');
 Route::resource('/module', 'ModuleController');
-//Route::get('command/{msg}/{topic}','ligthController@command')->name('command.msg');uth');
+Route::get('command/{port}/{port_status}/{id}/{pub_topic}','LightController@command')->name('command.msg');
