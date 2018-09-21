@@ -9,15 +9,17 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#">
-					<em class="fa fa-home"></em>
+					
+                                        <em class="fa fa-microchip">&nbsp;</em>
 				</a></li>
-				<li class="active">Portas</li>
+				<li class="active">Trancas </li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Portas</h1>
+                              <em class="fa fa-microchip"></em>
+				<h1 class="page-header">Trancas </h1>
 			</div>
 		</div><!--/.row-->
 		
@@ -40,9 +42,9 @@
       <tr>
         
         <th>Nome</th>
-      
-        <th>Satatus</th>
         
+        
+        <th>Módulo</th>
         <th>Ações</th>
        
     
@@ -54,18 +56,18 @@
       
       <tr>
      
-          
+        
           <td>{{$lock->name}}</td>
-          <td>{{$lock->satatus}}</td>
+         
           
-          
+          <td>{{$lock->module->name}}</td>
           <td>
-          
-          <a href="{{route('ligth.edit', $lock->id)}}" class="btn btn-warning" role="button"> Alterar </a>
+           <a href="{{route('command.msg', [$lock->port ,$lock->port_status, $lock->id, $lock->module->pub_topic])}}" class="btn btn-primary" role="button">Abrir</a>
+          <a href="{{route('lock.edit', $lock->id)}}" class="btn btn-warning" role="button"> Alterar </a>
           
           <form style="display: inline-block;"
                   method="POST" 
-                  action="{{route('ligth.destroy',$lock->id)}}"
+                  action="{{route('lock.destroy',$lock->id)}}"
                   onsubmit="return confirm('Confirma exclusão?')">
                 {{method_field('DELETE') }}
                   {{ csrf_field() }}

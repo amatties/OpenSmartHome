@@ -79,10 +79,10 @@
                     <em class="fa fa-lock">&nbsp;</em> Portas <span data-toggle="collapse" href="#listaPortas" class="icon pull-right"><em class="fa fa-plus"></em></span>
                 </a>
                 <ul class="children collapse" id="listaPortas">
-                    <li><a class="" href="">
+                    <li><a class="" href="{{route('lock.index')}}">
                             <span class="fa fa-list">&nbsp;</span> Listar portas
                         </a></li>
-                    <li><a class="" href="">
+                    <li><a class="" href="{{route('lock.create')}}">
                             <span class="fa fa-plus-circle">&nbsp;</span> Adicionar 
                         </a></li>
                 </ul>

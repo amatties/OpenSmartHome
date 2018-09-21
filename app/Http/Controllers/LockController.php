@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Lock;
+use App\Module;
 
 use Illuminate\Http\Request;
 
