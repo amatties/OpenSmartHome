@@ -62,7 +62,7 @@
           
           <td>{{$lock->module->name}}</td>
           <td>
-           <a href="{{route('command.msg', [$lock->port ,$lock->port_status, $lock->id, $lock->module->pub_topic])}}" class="btn btn-primary" role="button">Abrir</a>
+           <a href="{{route('command.msg', [$lock->id])}}" class="btn btn-primary" role="button">Abrir</a>
           <a href="{{route('lock.edit', $lock->id)}}" class="btn btn-warning" role="button"> Alterar </a>
           
           <form style="display: inline-block;"

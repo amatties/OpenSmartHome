@@ -18,26 +18,27 @@ class LockController extends Controller {
         $mensagem = $str[1];
         
         $reg = DB::table('users')->where('rf_key', $mensagem)->first();
-        
+        $lock = DB::table('modules')->where('pub_topic', $topico)->first();
         if(!empty($reg)){
-            //return "encontrado"; 
-            return $this->sendData("lock12", "25");
             
+            
+            return $this->sendData($lock->sub_topic, "open");
             
         }else{
-            return "não encontrado";
+            return $this->sendData($lock->sub_topic, "block");
         }
 
-       
-        
-       // return $this->sendData("tfeyfewuguwyeg", $nome);
-
-        
-        
-       
     }
     
+    public function openWeb(Request $request) {
     
+        $lockid = $request->id;
+        $lock = Lock::Find($lockid);
+        $this->sendData($lock->module->sub_topic, "open");
+      
+        return redirect()->route('lock.index')->with('status','Porta Aberta ');
+        
+    }
     
     
     
