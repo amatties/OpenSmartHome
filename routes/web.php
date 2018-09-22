@@ -23,6 +23,7 @@ Route::resource('/users', 'Auth\RegisterController');
 
 Route::resource('/light', 'LightController');
 Route::resource('/lock', 'LockController');
+
 Route::resource('/device', 'DeviceController');
 Route::resource('/module', 'ModuleController');
 Route::get('command/{port}/{port_status}/{id}/{pub_topic}','LightController@command')->name('command.msg');

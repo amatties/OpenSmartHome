@@ -2,24 +2,38 @@ const mqtt = require('mqtt')
 
 const client = mqtt.connect('mqtt://127.0.0.1') 
 
+var urlPath = '';
+
 client.on('connect', () => {    
      client.subscribe('#',{qos:1}) 
 })
 client.on('message',function(topic,message){    
+ var topico = topic.toString();
+ var mensagem = message.toString();
+console.log('Mensagem :',mensagem);        
 
-console.log('Mensagem :',message.toString());        
+console.log('Topico :',topico);
 
-console.log('Topico :',topic.toString());
+if(topico.includes("sensor_data")){
+    console.log("sensor");
+    urlPath = "/api/sensor"
+    
+}else if(topico.includes("lock")){
+    console.log("lock");
+    urlPath = "/api/receive"
+}else{
+    return;
+}
 
 
 
-var sendDATA=message.toString()+","+topic.toString();
+var sendDATA=topico+","+mensagem;
 var http=require('http');
 var querystring = require('querystring');    
 const options = {  
       hostname: '127.0.0.1',  
       port: 80,  
-      path: '/api/mqttsub',  
+      path: urlPath,  
       method: 'POST',  
       headers: { 
          'Content-Type': 'application/x-www-form-urlencoded',       'Content-Length': Buffer.byteLength(sendDATA)
