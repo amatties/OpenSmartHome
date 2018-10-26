@@ -3,17 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Module;
+use App\Sensor;
+use App\Sensor_Data;
+use Illuminate\Support\Facades\DB;
 
-class SensorController extends Controller
-{
+class SensorController extends Controller {
+
+    public function receiveData(Request $request) {
+
+        $bodyContent = $request->getContent();
+        $str = explode(',', $bodyContent);
+        $topico = $str[0];
+        $mensagem = $str[1];
+
+        $module = DB::table('modules')->where('pub_topic', $topico)->first();
+        $sensor = DB::table('sensors')->where('module_id', $module->id)->first();
+
+        if (!empty($sensor)||!empty($module)) {
+
+            $sensor_data = new Sensor_Data;
+            $sensor_data->data = $mensagem;
+            $sensor_data->sensor_id = $sensor->id;
+            $sensor_data->save();
+            return;
+        }
+        return;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        $sensors = Sensor::all();
+
+
+        return view('sensor_list', compact('sensors'));
     }
 
     /**
@@ -21,9 +49,13 @@ class SensorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $acao = 1;
+        $modules = Module::orderBy('name')->get();
+
+
+
+        return view('sensor_form', compact('acao', 'modules'));
     }
 
     /**
@@ -32,9 +64,13 @@ class SensorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $dados = $request->all();
+        $inc = Sensor::create($dados);
+
+        if ($inc) {
+            return redirect()->route('sensor.index')->with('status', $request->nome . ' Incluido! ');
+        }
     }
 
     /**
@@ -43,8 +79,7 @@ class SensorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -54,9 +89,12 @@ class SensorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id) {
+        $reg = Sensor::find($id);
+        $modules = Module::orderBy('name')->get();
+        $acao = 2;
+
+        return view('sensor_form', compact('reg', 'acao', 'modules'));
     }
 
     /**
@@ -66,9 +104,16 @@ class SensorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id) {
+        $dados = $request->all();
+
+        $reg = Sensor::find($id);
+
+        $alt = $reg->update($dados);
+
+        if ($alt) {
+            return redirect()->route('sensor.index')->with('status', $request->nome . ' Alterado! ');
+        }
     }
 
     /**
@@ -77,8 +122,12 @@ class SensorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        $reg = Sensor::find($id);
+
+        $reg->delete();
+        return redirect()->route('sensor.index')
+                        ->with('status', $reg->nome . ' Deletado com Sucesso');
     }
+
 }

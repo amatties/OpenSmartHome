@@ -12,7 +12,7 @@
                 <li><a href="#">
                     <em class="fa fa-home"></em>
                 </a></li>
-                <li class="active">Iluminação</li>
+                <li class="active">Sensores</li>
             </ol>
         </div><!--/.row-->
         
@@ -21,13 +21,13 @@
 
 
     <h2>
-        Cadastro de Iluminação
+        Cadastro de Sensor
     </h2>  
 
     @else
 
     <h2>
-        Alteração de Iluminação
+        Alteração de Sensor
     </h2>  
 
     @endif
@@ -39,11 +39,11 @@
 
     @if($acao ==1)
 
-    <form method="post" action="{{route('light.store')}}">
+    <form method="post" action="{{route('sensor.store')}}">
 
         @else
 
-        <form method="post" action="{{route('light.update', $reg->id)}}">
+        <form method="post" action="{{route('sensor.update', $reg->id)}}">
             {!! method_field('put') !!}
 
             @endif
@@ -60,13 +60,7 @@
             
      
          
-            <div class="form-group">
-                <label for="port">Porta Saida</label>
-                <input style="width: 60%" type="text" class="form-control" id="port"
-                       name="port" 
-                       value="{{$reg->port or old('port')}}"
-                       required>
-            </div>
+            
             
             <div class="form-group">
                 <label for="modulo_id">Módulo</label>

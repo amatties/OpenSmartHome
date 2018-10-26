@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('/receive','LockController@receiveData');
-Route::post('/receive','SensorController@receiveData');
+Route::post('/sensor','SensorController@receiveData');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

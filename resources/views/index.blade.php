@@ -92,10 +92,10 @@
                     <em class="fa fa-signal">&nbsp;</em> Sensores <span data-toggle="collapse" href="#listasensores" class="icon pull-right"><em class="fa fa-plus"></em></span>
                 </a>
                 <ul class="children collapse" id="listasensores">
-                    <li><a class="" href="">
+                    <li><a class="" href="{{route('sensor.index')}}">
                             <span class="fa fa-list">&nbsp;</span> Listar Sensores
                         </a></li>
-                    <li><a class="" href="}">
+                    <li><a class="" href="{{route('sensor.create')}}">
                             <span class="fa fa-plus-circle">&nbsp;</span> Adicionar 
                         </a></li>
                 </ul>

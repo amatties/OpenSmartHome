@@ -40,7 +40,7 @@
       <tr>
         
         <th>Nome</th>
-       
+       <th>Modulo</th>
         <th>Ações</th>
        
     
@@ -54,14 +54,15 @@
      
           
           <td>{{$sensor->name}}</td>
+          <td>{{$sensor->module->name}}</td>
          
           <td>
           
-          <a href="{{route('ligth.edit', $sensor->id)}}" class="btn btn-warning" role="button"> Alterar </a>
+          <a href="{{route('sensor.edit', $sensor->id)}}" class="btn btn-warning" role="button"> Alterar </a>
           
           <form style="display: inline-block;"
                   method="POST" 
-                  action="{{route('ligth.destroy',$sensor->id)}}"
+                  action="{{route('sensor.destroy',$sensor->id)}}"
                   onsubmit="return confirm('Confirma exclusão?')">
                 {{method_field('DELETE') }}
                   {{ csrf_field() }}

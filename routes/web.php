@@ -23,6 +23,7 @@ Route::resource('/users', 'Auth\RegisterController');
 
 Route::resource('/light', 'LightController');
 Route::resource('/lock', 'LockController');
+Route::resource('/sensor', 'SensorController');
 
 Route::resource('/device', 'DeviceController');
 Route::resource('/module', 'ModuleController');
