@@ -60,27 +60,7 @@
             
      
          
-            <div class="form-group">
-                <label for="sub_topic">Sub Topic</label>
-                <input style="width: 60%" type="text" class="form-control" id="sub_topic"
-                       name="sub_topic" 
-                       value="{{$reg->sub_topic or old('sub_topic')}}"
-                       required>
-            </div>
-            <div class="form-group">
-                <label for="pub_topic">Pub Topic</label>
-                <input style="width: 60%" type="text" class="form-control" id="pub_topic"
-                       name="pub_topic" 
-                       value="{{$reg->pub_topic or old('pub_topic')}}"
-                       required>
-            </div>
-            <div class="form-group">
-                <label for="ip">IP</label>
-                <input style="width: 60%" type="text" class="form-control" id="ip"
-                       name="ip" 
-                       value="{{$reg->ip or old('ip')}}"
-                       required>
-            </div>
+            
 
             
 

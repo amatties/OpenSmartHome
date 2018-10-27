@@ -61,7 +61,9 @@ if(in == "open"){
     digitalWrite(5, HIGH);
     
     delay(2000);
- 
+     }else if(in == "cad"){
+      draw("Cadastrado");
+      delay(3000);
     }else if(in == "block"){
       draw("Acesso Negado");
       delay(3000);
@@ -115,7 +117,7 @@ draw("Detectado");
   //Serial.println(tam);
   Serial.println(conteudo);
  // lcdout = conteudo;
- draw(conteudo);
+ //draw(conteudo);
 
 
   

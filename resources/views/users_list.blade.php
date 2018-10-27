@@ -34,7 +34,7 @@
     
     
     @endif
-    
+   
     <table class="table table-hover">
     <thead>
       <tr>
@@ -55,6 +55,10 @@
           <td>{{$user->name}}</td>
           <td>{{$user->email}}</td>
           <td>
+              
+              
+              <a href="{{route('lock.select', [$user->id, ])}}" class="btn btn-primary" role="button">Adicionar Rfid</a>
+          
           
           <form style="display: inline-block;"
                   method="POST" 

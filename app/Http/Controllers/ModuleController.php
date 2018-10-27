@@ -41,9 +41,18 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        $dados = $request->all();
-        $inc = Module::create($dados);
-
+       // $dados = $request->all();
+       // $inc = Module::create($dados);
+ 
+        
+            $nome = $request->name;
+          
+            $inc = new Module;
+            $inc->name = $nome;
+            $inc->pub_topic = 'pub_'.$nome;
+            $inc->sub_topic = 'sub_'.$nome;
+            $inc->save();
+           
         if ($inc) {
             return redirect()->route('module.index')->with('status', $request->name . ' Incluido! ');
         }

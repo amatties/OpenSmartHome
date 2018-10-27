@@ -113,9 +113,9 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
 void reconnectMQTT() {
   while (!MQTT.connected()) {
     Serial.println("Conectando.. " + String(BROKER_MQTT));
-    if (MQTT.connect("light_1")) {
+    if (MQTT.connect("light_01")) {
       Serial.println("Conectado");
-      MQTT.subscribe("light_1");
+      MQTT.subscribe("sub_light_01");
 
     } else {
       Serial.println("Falha ao Reconectar");

@@ -9,15 +9,17 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#">
-					<em class="fa fa-home"></em>
+					
+                                        <em class="fa fa-microchip">&nbsp;</em>
 				</a></li>
-				<li class="active">Módulos</li>
+				<li class="active">Trancas </li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Módulos</h1>
+                              <em class="fa fa-microchip"></em>
+				<h1 class="page-header">Trancas </h1>
 			</div>
 		</div><!--/.row-->
 		
@@ -40,35 +42,28 @@
       <tr>
         
         <th>Nome</th>
-       
+     
         <th>Ações</th>
        
     
       </tr>
     </thead>
     <tbody>
-      @foreach($modules as $module)
+      @foreach($locks as $lock)
      
       
       <tr>
      
+        
+          <td>{{$lock->name}}</td>
+         
           
-          <td>{{$module->name}}</td>
-          
-          
+        
           <td>
+           
+          <a href="{{route('rfid.add', [$lock->id, $user])}}" class="btn btn-warning" role="button"> Escolher </a>
           
-          <a href="{{route('module.edit', $module->id)}}" class="btn btn-warning" role="button"> Alterar </a>
           
-          <form style="display: inline-block;"
-                  method="POST" 
-                  action="{{route('module.destroy',$module->id)}}"
-                  onsubmit="return confirm('Confirma exclusão?')">
-                {{method_field('DELETE') }}
-                  {{ csrf_field() }}
-             <button type="submit" class="btn btn-danger">Excluir</button>
-            </form>
-             
           </td>
       </tr>
       

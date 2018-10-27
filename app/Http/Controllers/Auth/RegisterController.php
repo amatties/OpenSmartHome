@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Lock;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
@@ -23,14 +24,27 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
+   public function addRfid(Request $request) {
+       $lockId = $request->id;
+       $userId = $request->user;
+        $lock = Lock::Find($lockId);
+        $user = User::Find($userId);
+       
+        $alt = $user->update(['rf_key' => $lock->module->pub_topic]);
+        
+        return redirect()->route('users.index')->with('status', 'Pronto para Cadastro ');
+   }
+   
     
       public function index()
     {
         
         
         $users = User::all()->except(Auth::user()->id);
+       
 
         return view('users_list', compact('users'));
+        
     }
     
     
@@ -87,6 +101,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'rf_key' => 'none',
             'password' => bcrypt($data['password']),
         ]);
     }

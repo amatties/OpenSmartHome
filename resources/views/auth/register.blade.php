@@ -41,7 +41,7 @@
                             <label for="name" class="col-md-4 control-label">Nome</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="namee" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -64,6 +64,8 @@
                                 @endif
                             </div>
                         </div>
+			
+
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Senha</label>

@@ -16,35 +16,37 @@ class LockController extends Controller {
         $str = explode(',', $bodyContent);
         $topico = $str[0];
         $mensagem = $str[1];
-        
-        $reg = DB::table('users')->where('rf_key', $mensagem)->first();
         $lock = DB::table('modules')->where('pub_topic', $topico)->first();
-        if(!empty($reg)){
-            
-            
-            return $this->sendData($lock->sub_topic, "open");
-            
-        }else{
-            return $this->sendData($lock->sub_topic, "block");
+        $cad = DB::table('users')->where('rf_key', $topico)->first();
+        if (!empty($cad)) {
+               
+            $userId = $cad->id;
+            $user = User::Find($userId);
+            $alt = $user->update(['rf_key' => trim($mensagem)]);
+            return $this->sendData($lock->sub_topic, "cad");
         }
 
+        $reg = DB::table('users')->where('rf_key', trim($mensagem))->first();
+
+        if (!empty($reg)) {
+
+            return $this->sendData($lock->sub_topic, "open");
+        } else {
+            return $this->sendData($lock->sub_topic, "block");
+        }
     }
-    
+
     public function openWeb(Request $request) {
-    
+
         $lockid = $request->id;
         $lock = Lock::Find($lockid);
         $this->sendData($lock->module->sub_topic, "open");
-      
-        return redirect()->route('lock.index')->with('status','Porta Aberta ');
-        
+
+        return redirect()->route('lock.index')->with('status', 'Porta Aberta ');
     }
-    
-    
-    
-    
+
     public function sendData($topico, $mensagem) {
-        
+
         $server = "127.0.0.1";
         $port = 1883;
         $username = "";
@@ -52,13 +54,11 @@ class LockController extends Controller {
         $client_id = "clienteweb";
         $mqtt = new phpMQTT($server, $port, $client_id);
         if ($mqtt->connect(true, NULL, $username, $password)) {
-        $mqtt->publish($topico, $mensagem, 0);
+            $mqtt->publish($topico, $mensagem, 0);
 
-        $mqtt->close();
+            $mqtt->close();
         }
         return;
-        
-        
     }
 
     /**
@@ -66,6 +66,13 @@ class LockController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
+    public function select($user) {
+        $locks = Lock::all();
+
+
+        return view('lock_select', compact('locks','user'));
+    }
+    
     public function index() {
         $locks = Lock::all();
 

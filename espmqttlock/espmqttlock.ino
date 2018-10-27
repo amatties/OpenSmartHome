@@ -1,11 +1,6 @@
 // Libs
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-#include "DHT.h"
- 
-#define DHT_DATA_PIN 2
-#define DHTTYPE DHT11
- 
 
 // Vars
 const char* SSID = "smart"; // rede wifi
@@ -14,10 +9,10 @@ const char* PASSWORD = "12345678"; // senha da rede wifi
 const char* BROKER_MQTT = "192.168.4.1"; // ip/host do broker
 int BROKER_PORT = 1883; // porta do broker
 String in;
+// prototypes
 
-DHT dht(DHT_DATA_PIN, DHTTYPE);
 
-
+void initPins();
 void initSerial();
 void initWiFi();
 void initMQTT();
@@ -25,49 +20,44 @@ void initMQTT();
 WiFiClient espClient;
 PubSubClient MQTT(espClient); // instancia o mqtt
 
-
+// setup
 void setup() {
   
-  dht.begin();
+  initPins();
   initSerial();
   initWiFi();
   initMQTT();
 }
 
 void loop() {
- delay(2000);
 
-  float umid = dht.readHumidity();
+  in = Serial.readString();
+  if(in.length()>1){
+  //  String teste = in.c_str();
+   MQTT.publish("pub_lock_01", in.c_str()); 
+  }
   
-  float temp = dht.readTemperature();
-
-
-if (isnan(umid) || isnan(temp)) {
-    
-    return;
- }else{
-
-   delay(12000);
-   MQTT.publish("pub_dht_01", String(temp).c_str()); 
-   
-   MQTT.publish("pub_dht_01", String(umid).c_str());
-
-}
-  recconectWiFi();
-  MQTT.loop();
-
-
+ 
+  
   if (!MQTT.connected()) {
     reconnectMQTT();
   }
- 
+  recconectWiFi();
+  MQTT.loop();
+}
+
+// implementacao dos prototypes
+
+void initPins() {
+ // pinMode(D5, OUTPUT);
+ // digitalWrite(D5, 0);
 }
 
 void initSerial() {
   Serial.begin(9600);
 }
 void initWiFi() {
-  delay(8000);
+  delay(9000);
   Serial.println("Conectando-se em: " + String(SSID));
   WiFi.mode(WIFI_STA);
   WiFi.begin(SSID, PASSWORD);
@@ -83,17 +73,30 @@ void initWiFi() {
 // Funcão para se conectar ao Broker MQTT
 void initMQTT() {
   MQTT.setServer(BROKER_MQTT, BROKER_PORT);
- }
+  MQTT.setCallback(mqtt_callback);
+}
 
+//Função que recebe as mensagens publicadas
+void mqtt_callback(char* topic, byte* payload, unsigned int length) {
+ 
+  String message;
+  for (int i = 0; i < length; i++) {
+    char c = (char)payload[i];
+    message += c;
+  }
 
+  Serial.println(String(message));
 
+  Serial.flush();
+}
 
 void reconnectMQTT() {
   while (!MQTT.connected()) {
     Serial.println("Conectando.. " + String(BROKER_MQTT));
-    if (MQTT.connect("dht_sensor_01")) {
+    if (MQTT.connect("lock_01")) {
       Serial.println("Conectado");
-  
+      MQTT.subscribe("sub_lock_01");
+
     } else {
       Serial.println("Falha ao Reconectar");
       Serial.println("Tentando se reconectar");
