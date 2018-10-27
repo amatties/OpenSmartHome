@@ -6,6 +6,9 @@
 * links relacionados:
 
 
+
+ [Artigo](https://v1.overleaf.com/read/pdrwxtrbfgnc) (Em Desenvolvimento).
+
  [Open Smart Home Mobile](https://github.com/amatties/OpenSmartHomeMobile)
 
  [Arduino.cc](https://www.arduino.cc/)
