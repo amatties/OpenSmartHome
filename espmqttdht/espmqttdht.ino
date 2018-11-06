@@ -14,6 +14,8 @@ const char* PASSWORD = "12345678"; // senha da rede wifi
 const char* BROKER_MQTT = "192.168.4.1"; // ip/host do broker
 int BROKER_PORT = 1883; // porta do broker
 String in;
+String t;
+String u;
 
 DHT dht(DHT_DATA_PIN, DHTTYPE);
 
@@ -38,8 +40,10 @@ void loop() {
  delay(2000);
 
   float umid = dht.readHumidity();
+  u = String(umid)+"-Umidade";
   
   float temp = dht.readTemperature();
+  t = String(temp)+"-Temperatura";
 
 
 if (isnan(umid) || isnan(temp)) {
@@ -48,9 +52,9 @@ if (isnan(umid) || isnan(temp)) {
  }else{
 
    delay(12000);
-   MQTT.publish("pub_dht_01", String(temp).c_str()); 
+   MQTT.publish("pub_dht_01_sensor_data", t.c_str()); 
    
-   MQTT.publish("pub_dht_01", String(umid).c_str());
+   MQTT.publish("pub_dht_01_sensor_data", u.c_str());
 
 }
   recconectWiFi();

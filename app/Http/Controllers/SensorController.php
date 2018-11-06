@@ -7,6 +7,7 @@ use App\Module;
 use App\Sensor;
 use App\Sensor_Data;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SensorController extends Controller {
 
@@ -16,6 +17,7 @@ class SensorController extends Controller {
         $str = explode(',', $bodyContent);
         $topico = $str[0];
         $mensagem = $str[1];
+        $str2 = explode('-', $mensagem);
 
         $module = DB::table('modules')->where('pub_topic', $topico)->first();
         $sensor = DB::table('sensors')->where('module_id', $module->id)->first();
@@ -23,7 +25,8 @@ class SensorController extends Controller {
         if (!empty($sensor)||!empty($module)) {
 
             $sensor_data = new Sensor_Data;
-            $sensor_data->data = $mensagem;
+            $sensor_data->data = $str2[0];
+            $sensor_data->type = $str2[1];
             $sensor_data->sensor_id = $sensor->id;
             $sensor_data->save();
             return;
@@ -80,7 +83,16 @@ class SensorController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+        $num = 0;
+      
+       $sensors = DB::table('sensor_datas')
+               ->where('sensor_id', $id)
+               ->whereDate('created_at', '=', Carbon::today()->toDateString())
+               ->get();    
+       
+       
+       return view('show_graph', compact('sensors','num'));
+       //return view('show_graph')->with('sensors', $sensors); 
     }
 
     /**

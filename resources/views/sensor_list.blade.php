@@ -68,7 +68,7 @@
                   {{ csrf_field() }}
              <button type="submit" class="btn btn-danger">Excluir</button>
             </form>
-             
+            <a href="{{route('sensor.show', $sensor->id)}}" class="btn btn-success" role="button"> Ver Dados </a> 
           </td>
       </tr>
       

@@ -12,52 +12,45 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-class RegisterController extends Controller
-{
+class RegisterController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-   public function addRfid(Request $request) {
-       $lockId = $request->id;
-       $userId = $request->user;
+      |--------------------------------------------------------------------------
+      | Register Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller handles the registration of new users as well as their
+      | validation and creation. By default this controller uses a trait to
+      | provide this functionality without requiring any additional code.
+      |
+     */
+
+    public function addRfid(Request $request) {
+        $lockId = $request->id;
+        $userId = $request->user;
         $lock = Lock::Find($lockId);
         $user = User::Find($userId);
-       
-        $alt = $user->update(['rf_key' => $lock->module->pub_topic]);
-        
-        return redirect()->route('users.index')->with('status', 'Pronto para Cadastro ');
-   }
-   
-    
-      public function index()
-    {
-        
-        
-        $users = User::all()->except(Auth::user()->id);
-       
 
-        return view('users_list', compact('users'));
-        
+        $alt = $user->update(['rf_key' => $lock->module->pub_topic]);
+
+        return redirect()->route('users.index')->with('status', 'Pronto para Cadastro ');
     }
-    
-    
-     public function destroy($id)
-    {
-         $reg = User::find($id);
+
+    public function index() {
+
+
+        // $users = User::all()->except(Auth::user()->id);
+
+        $users = User::all();
+        return view('users_list', compact('users'));
+    }
+
+    public function destroy($id) {
+        $reg = User::find($id);
 
         $reg->delete();
         return redirect()->route('users.index')
                         ->with('status', $reg->name . ' Deletado com Sucesso');
-    
     }
-
 
     use RegistersUsers;
 
@@ -73,7 +66,6 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    
 
     /**
      * Get a validator for an incoming registration request.
@@ -81,12 +73,11 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
+    protected function validator(array $data) {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+                    'name' => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255|unique:users',
+                    'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -96,32 +87,23 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
-    {
+    protected function create(array $data) {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'rf_key' => 'none',
-            'password' => bcrypt($data['password']),
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'rf_key' => 'none',
+                    'password' => bcrypt($data['password']),
         ]);
     }
-    
-    
-    
-    
-     public function register(Request $request)
-    {
+
+    public function register(Request $request) {
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
         //desativa o login automatico ao cadastrar um novo usuario
-       // $this->guard()->login($user);
-        
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
-    
-        
+        // $this->guard()->login($user);
+
+        return $this->registered($request, $user) ?: redirect($this->redirectPath());
     }
-    
-    
+
 }

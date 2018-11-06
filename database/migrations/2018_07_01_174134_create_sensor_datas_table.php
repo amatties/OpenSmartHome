@@ -16,6 +16,7 @@ class CreateSensorDatasTable extends Migration
         Schema::create('sensor_datas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('data', 60);
+            $table->string('type', 60);
             $table->timestamps();
             $table->integer('sensor_id')->unsigned();
             $table->foreign('sensor_id')
