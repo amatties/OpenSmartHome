@@ -84,15 +84,22 @@ class SensorController extends Controller {
      */
     public function show($id) {
         $num = 0;
-      
+     // $resposta []; 
        $sensors = DB::table('sensor_datas')
                ->where('sensor_id', $id)
                ->whereDate('created_at', '=', Carbon::today()->toDateString())
-               ->get();    
+               ->get(); 
+       $tipos = Sensor_Data::select('type')
+               ->groupBy('type')
+               ->get();
+       $num = count($tipos);
        
        
-       return view('show_graph', compact('sensors','num'));
-       //return view('show_graph')->with('sensors', $sensors); 
+       
+      // return compact('sensors', 'num', 'tipos');
+       
+       return view('show_graph', compact('sensors','num','tipos'));
+      // return view('show_graph')->with('sensors', $sensors, 'num', $num); 
     }
 
     /**
