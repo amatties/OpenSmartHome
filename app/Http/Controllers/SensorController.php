@@ -22,18 +22,17 @@ class SensorController extends Controller {
         $module = DB::table('modules')->where('pub_topic', $topico)->first();
         $sensor = DB::table('sensors')->where('module_id', $module->id)->first();
 
-        if (!empty($sensor)||!empty($module)) {
+        if (!empty($sensor) || !empty($module)) {
 
             $sensor_data = new Sensor_Data;
             $sensor_data->data = $str2[0];
-            $sensor_data->type = $str2[1];
+            $sensor_data->type = trim($str2[1]);
             $sensor_data->sensor_id = $sensor->id;
             $sensor_data->save();
             return;
         }
         return;
     }
-
 
     /**
      * Display a listing of the resource.
@@ -83,23 +82,18 @@ class SensorController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $num = 0;
-     // $resposta []; 
-       $sensors = DB::table('sensor_datas')
-               ->where('sensor_id', $id)
-               ->whereDate('created_at', '=', Carbon::today()->toDateString())
-               ->get(); 
-       $tipos = Sensor_Data::select('type')
-               ->groupBy('type')
-               ->get();
-       $num = count($tipos);
-       
-       
-       
-      // return compact('sensors', 'num', 'tipos');
-       
-       return view('show_graph', compact('sensors','num','tipos'));
-      // return view('show_graph')->with('sensors', $sensors, 'num', $num); 
+
+        $sensors = DB::table('sensor_datas')
+                ->where('sensor_id', $id)
+                ->whereDate('created_at', '=', Carbon::today()->toDateString())
+                ->get();
+        $tipos = Sensor_Data::select('type')
+                ->where('sensor_id', $id)
+                ->groupBy('type')
+                ->get();
+        $num = count($tipos);
+
+        return view('show_graph', compact('sensors', 'num', 'tipos'));
     }
 
     /**

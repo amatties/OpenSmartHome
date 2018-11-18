@@ -4,11 +4,10 @@ html {
 
 
 
-.footer {
-    position:absolute;
-    bottom:0;
-    width:100%;
-}
+.footer,
+    .push {
+      height: 50px;
+    }
 
 
 body.page-login {

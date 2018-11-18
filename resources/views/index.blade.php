@@ -144,7 +144,7 @@
 
     @yield('conteudo')
 
-
+<div class="push"></div>
     <div class="footer">
         <p class="back-link">Todos direitos reservados <a href="#">Open Smart Home</a></p>
     </div>
