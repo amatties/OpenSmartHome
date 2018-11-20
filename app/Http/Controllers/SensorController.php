@@ -34,6 +34,31 @@ class SensorController extends Controller {
         return;
     }
 
+    public function show_graph_filter(Request $request, $id) {
+
+        $request->validate([
+            'time' => 'required',
+        ]);
+
+
+        $date = $request->time;
+        $id = $request->id;
+        $sensors = DB::table('sensor_datas')
+                ->where('sensor_id', $id)
+                ->whereDate('created_at', '=', $date)
+                ->get();
+        if (!empty($sensors)) {
+            
+        }
+        $tipos = Sensor_Data::select('type')
+                ->where('sensor_id', $id)
+                ->groupBy('type')
+                ->get();
+        $num = count($tipos);
+
+        return view('show_graph', compact('sensors', 'num', 'tipos', 'id'));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -83,9 +108,11 @@ class SensorController extends Controller {
      */
     public function show($id) {
 
+        $date = Carbon::today()->toDateString();
+
         $sensors = DB::table('sensor_datas')
                 ->where('sensor_id', $id)
-                ->whereDate('created_at', '=', Carbon::today()->toDateString())
+                ->whereDate('created_at', '=', $date)
                 ->get();
         $tipos = Sensor_Data::select('type')
                 ->where('sensor_id', $id)
@@ -93,7 +120,7 @@ class SensorController extends Controller {
                 ->get();
         $num = count($tipos);
 
-        return view('show_graph', compact('sensors', 'num', 'tipos'));
+        return view('show_graph', compact('sensors', 'num', 'tipos', 'id'));
     }
 
     /**

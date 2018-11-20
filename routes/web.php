@@ -26,6 +26,8 @@ Route::resource('/light', 'LightController');
 Route::resource('/lock', 'LockController');
 Route::get('lockSelect/{id}','LockController@select')->name('lock.select');
 Route::resource('/sensor', 'SensorController');
+Route::post('sensorfilter/{id}','SensorController@show_graph_filter')->name('graph.filter');
+
 
 Route::resource('/device', 'DeviceController');
 Route::resource('/module', 'ModuleController');
