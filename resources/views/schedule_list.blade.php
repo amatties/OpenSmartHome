@@ -61,11 +61,11 @@
           
           <td>
           
-          <a href="{{route('ligth.edit', $schedule->id)}}" class="btn btn-warning" role="button"> Alterar </a>
+          <a href="{{route('schedule.edit', $schedule->id)}}" class="btn btn-warning" role="button"> Alterar </a>
           
           <form style="display: inline-block;"
                   method="POST" 
-                  action="{{route('ligth.destroy',$schedule->id)}}"
+                  action="{{route('schedule.destroy',$schedule->id)}}"
                   onsubmit="return confirm('Confirma exclusão?')">
                 {{method_field('DELETE') }}
                   {{ csrf_field() }}

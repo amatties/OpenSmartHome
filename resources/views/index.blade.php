@@ -138,10 +138,10 @@
                         <em class="fa fa-calendar-check-o">&nbsp;</em> Agendamentos <span data-toggle="collapse" href="#agendamentos" class="icon pull-right"><em class="fa fa-plus"></em></span>
                     </a>
                     <ul class="children collapse" id="agendamentos">
-                        <li><a class="" href="">
+                        <li><a class="" href="{{route('schedule.index')}}">
                                 <span class="fa fa-list">&nbsp;</span> Listar Agendamentos
                             </a></li>
-                        <li><a class="" href="">
+                        <li><a class="" href="{{route('schedule.create')}}">
                                 <span class="fa fa-plus-circle">&nbsp;</span> Adicionar 
                             </a></li>
                     </ul>
