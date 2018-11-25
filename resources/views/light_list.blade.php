@@ -66,10 +66,10 @@
 
 
 
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#swModal"><span class="glyphicon glyphicon-off"></span></button>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#confModal"><span class="glyphicon glyphicon-cog"></span></button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#swModal{{$light->id}}"><span class="glyphicon glyphicon-off"></span></button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#confModal{{$light->id}}"><span class="glyphicon glyphicon-cog"></span></button>
 
-                        <div class="modal fade" id="swModal" role="dialog">
+                        <div class="modal fade" id="swModal{{$light->id}}" role="dialog">
                             <div class="modal-dialog">
 
 
@@ -80,10 +80,10 @@
                                     </div>
                                     <div class="modal-body">
                                         @if ($light->port_status == 1 )
-                                        <a href="{{route('command.msg', [$light->port ,$light->port_status, $light->id, $light->module->pub_topic])}}" class="btn btn-primary" role="button">Ligar</a>
+                                        <a href="{{route('command.msg', [$light->port ,$light->port_status, $light->id])}}" class="btn btn-primary" role="button">Ligar</a>
                                         @elseif ($light->port_status == 0)
 
-                                        <a href="{{route('command.msg', [$light->port ,$light->port_status, $light->id, $light->module->pub_topic])}}" class="btn btn-primary" role="button">Desligar</a>
+                                        <a href="{{route('command.msg', [$light->port ,$light->port_status, $light->id])}}" class="btn btn-primary" role="button">Desligar</a>
                                         @endif
 
 
@@ -97,7 +97,7 @@
 
                             </div>
                         </div>
-                        <div class="modal fade" id="confModal" role="dialog">
+                        <div class="modal fade" id="confModal{{$light->id}}" role="dialog">
                             <div class="modal-dialog">
 
 
@@ -107,7 +107,7 @@
                                         <h4 class="modal-title">Ações</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <a href="{{route('schedule.create', $light->id)}}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-calendar"></span> Agendar </a>
+                                        <a href="{{route('schedule.l', $light->id)}}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-calendar"></span> Agendar </a>
                                         <a href="{{route('light.edit', $light->id)}}" class="btn btn-warning" role="button"><span class="glyphicon glyphicon-pencil"></span> Alterar </a>
 
                                         <form style="display: inline-block;"

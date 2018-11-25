@@ -7,6 +7,15 @@ use App\Schedule;
 
 class ScheduleController extends Controller
 {
+    
+    public function novo($id) {
+       
+         return view('schedule_form', compact('acao','id'));
+    }
+    
+    
+    
+    
     /**
      * Display a listing of the resource.
      *

@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
+
+Route::resource('/list', 'Api\LightController');
+Route::post('/acommand','Api\LightController@command');
 Route::post('/receive','LockController@receiveData');
 Route::post('/sensor','SensorController@receiveData');
 Route::middleware('auth:api')->get('/user', function (Request $request) {

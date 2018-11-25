@@ -11,7 +11,7 @@ html {
 
 
 body.page-login {
-  background-image: url('https://images.unsplash.com/photo-1428515613728-6b4607e44363?auto=format&fit=crop&w=1050&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D')!important;
+  
   background-size: cover!important;
   background-repeat: no-repeat;
   padding-top: 60px;
@@ -19,6 +19,10 @@ body.page-login {
   color: #444444;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
+.jumbotron{
+  background-color: rgb(102, 51, 153) !important;  
+    
+}
 .login-logo {
   padding: 5px;
   text-align: center;

@@ -29,9 +29,9 @@ Route::resource('/sensor', 'SensorController');
 Route::post('sensor/{id}','SensorController@show_graph_filter')->name('graph.filter');
 
 Route::resource('/schedule', 'ScheduleController');
-
+Route::get('schedulel/{id}', 'ScheduleController@novo')->name('schedule.l');
 
 Route::resource('/device', 'DeviceController');
 Route::resource('/module', 'ModuleController');
-Route::get('command/{port}/{port_status}/{id}/{sub_topic}','LightController@command')->name('command.msg');
+Route::get('command/{port}/{port_status}/{id}','LightController@command')->name('command.msg');
 Route::get('open/{id}','LockController@openWeb')->name('open.msg');

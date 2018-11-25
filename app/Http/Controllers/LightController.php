@@ -8,8 +8,36 @@ use App\Module;
 use Illuminate\Support\Facades\DB;
 
 class LightController extends Controller {
+    
+    
+     public function command(Request $request) {
+        $port = $request->port;
+        $id = $request->id;
+        $port_status = $request->port_status;
 
-    public function command(Request $request) {
+        $msg = "" . $port . "" . $port_status . "";
+
+        $reg = Light::find($id);
+        $pub_topic = $reg->module->sub_topic;
+        $dest = $reg->port_status;
+        if ($dest == 0) {
+            $alt = $reg->update(['port_status' => 1]);
+            if ($alt) {
+                $this->sendData($pub_topic, $msg);
+
+                return redirect()->route('light.index')->with('status2', $reg->name . ' Desligada! ');
+            }
+        } else {
+            $alt = $reg->update(['port_status' => 0]);
+            if ($alt) {
+                $this->sendData($pub_topic, $msg);
+
+                return redirect()->route('light.index')->with('status', $reg->name . ' Ligada! ');
+            }
+        }
+    }
+
+    public function command2(Request $request) {
         $port = $request->port;
         $id = $request->id;
         $port_status = $request->port_status;
