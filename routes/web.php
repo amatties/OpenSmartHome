@@ -12,26 +12,23 @@
 */
 
 
-Route::get('/', function () {
-    return view('index');
-});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('index');
-Route::resource('/users', 'Auth\RegisterController');
-Route::get('rfid/{id}/{user}','Auth\RegisterController@addRfid')->name('rfid.add');
+Route::get('/', 'HomeController@index')->name('index')->middleware('auth');
+Route::resource('/users', 'Auth\RegisterController')->middleware('auth');
+Route::get('rfid/{id}/{user}','Auth\RegisterController@addRfid')->name('rfid.add')->middleware('auth');
 
-Route::resource('/light', 'LightController');
-Route::resource('/lock', 'LockController');
-Route::get('lockSelect/{id}','LockController@select')->name('lock.select');
-Route::resource('/sensor', 'SensorController');
-Route::post('sensor/{id}','SensorController@show_graph_filter')->name('graph.filter');
+Route::resource('/light', 'LightController')->middleware('auth');
+Route::resource('/lock', 'LockController')->middleware('auth');
+Route::get('lockSelect/{id}','LockController@select')->name('lock.select')->middleware('auth');
+Route::resource('/sensor', 'SensorController')->middleware('auth');
+Route::post('sensor/{id}','SensorController@show_graph_filter')->name('graph.filter')->middleware('auth');
 
-Route::resource('/schedule', 'ScheduleController');
-Route::get('schedulel/{id}', 'ScheduleController@novo')->name('schedule.l');
+Route::resource('/schedule', 'ScheduleController')->middleware('auth');
+Route::get('schedulel/{id}', 'ScheduleController@novo')->name('schedule.l')->middleware('auth');
 
-Route::resource('/device', 'DeviceController');
-Route::resource('/module', 'ModuleController');
-Route::get('command/{port}/{port_status}/{id}','LightController@command')->name('command.msg');
-Route::get('open/{id}','LockController@openWeb')->name('open.msg');
+Route::resource('/device', 'DeviceController')->middleware('auth');
+Route::resource('/module', 'ModuleController')->middleware('auth');
+Route::get('command/{port}/{port_status}/{id}','LightController@command')->name('command.msg')->middleware('auth');
+Route::get('open/{id}','LockController@openWeb')->name('open.msg')->middleware('auth');

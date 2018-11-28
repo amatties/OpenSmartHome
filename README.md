@@ -5,7 +5,13 @@
 
 * links relacionados:
 
+* Link acesso ao sistema [http://opensmarthome.ddns.net](http://opensmarthome.ddns.net:8080) 
 
+Login: guest_01@smarthome.net
+
+Senha: senac2018
+
+   
 
  [Artigo](https://v1.overleaf.com/read/pdrwxtrbfgnc) (Em Desenvolvimento).
 

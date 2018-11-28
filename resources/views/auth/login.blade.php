@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row" >
             <div class=" col-sm-3 "></div>
-            <div class=" jumbotron col-sm-6">
+            <div class=" panel-primary col-sm-6">
                 <div class="login-logo">
 <span>Open</span> Smart Home
                

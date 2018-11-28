@@ -18,9 +18,7 @@ class CreateSchedulesTable extends Migration
             $table->string('name', 60);
             $table->string('datetime_init', 60);
             $table->string('datetime_end', 60);
-            $table->integer('sensor_id')->unsigned();
-            $table->foreign('sensor_id')
-                    ->references('id')->on('sensors');
+           
             
         });
     }
