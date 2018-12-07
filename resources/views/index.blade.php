@@ -146,7 +146,7 @@
                             </a></li>
                     </ul>
                 </li>
-                <li><a href="#"><em class="fa fa-archive">&nbsp;</em> Log</a></li>
+                <li><a href="{{route('log.index')}}"><em class="fa fa-archive">&nbsp;</em> Log</a></li>
 
                 <!-- LOGOUT -->
                 <li>   <a href="{{ route('logout') }}"

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 
 Route::resource('/sensor', 'Api\SensorController');
 Route::resource('/light', 'Api\LightController');
+Route::resource('/device', 'Api\DeviceController');
 Route::resource('/lock', 'Api\LockController');
 Route::get('/login/{user}/{pass}', 'Api\loginController@login');
 Route::post('/open','Api\LockController@open');

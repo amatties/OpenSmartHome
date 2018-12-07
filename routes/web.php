@@ -29,6 +29,7 @@ Route::resource('/schedule', 'ScheduleController')->middleware('auth');
 Route::get('schedulel/{id}', 'ScheduleController@novo')->name('schedule.l')->middleware('auth');
 
 Route::resource('/device', 'DeviceController')->middleware('auth');
+Route::resource('/log', 'logController')->middleware('auth');
 Route::resource('/module', 'ModuleController')->middleware('auth');
 Route::get('command/{port}/{port_status}/{id}','LightController@command')->name('command.msg')->middleware('auth');
 Route::get('open/{id}','LockController@openWeb')->name('open.msg')->middleware('auth');
