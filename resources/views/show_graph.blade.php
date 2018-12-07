@@ -121,20 +121,14 @@ for ( var i = 0; i < col; i++ ) {
                         text: ttt
                     },
                     scales: {
-                        xAxes: [{
-                                type: 'time',
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Date'
-                                },
-                                ticks: {
-                                    major: {
-                                        fontStyle: 'bold',
-                                        fontColor: '#FF0000'
-                                    }
-                                }
-                            }],
+                       xAxes: [{
+                type: 'time',
+                time: {
+                    displayFormats: {
+                        minute: 'HH:mm'
+                    }
+                }
+            }],
                         yAxes: [{
                                 display: true,
                                 scaleLabel: {

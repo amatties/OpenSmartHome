@@ -46,17 +46,7 @@ void loop() {
   t = String(temp)+"-Temperatura";
 
 
-if (isnan(umid) || isnan(temp)) {
-    
-    return;
- }else{
 
-   delay(12000);
-   MQTT.publish("pub_dht_01_sensor_data", t.c_str()); 
-   
-   MQTT.publish("pub_dht_01_sensor_data", u.c_str());
-
-}
   recconectWiFi();
   MQTT.loop();
 
@@ -64,6 +54,21 @@ if (isnan(umid) || isnan(temp)) {
   if (!MQTT.connected()) {
     reconnectMQTT();
   }
+
+
+if (isnan(umid) || isnan(temp)) {
+    
+    return;
+ }else{
+
+   delay(20000);
+   MQTT.publish("pub_dht_01_sensor_data", t.c_str()); 
+   delay(20000);
+   MQTT.publish("pub_dht_01_sensor_data", u.c_str());
+   delay(20000);
+
+}
+  
  
 }
 

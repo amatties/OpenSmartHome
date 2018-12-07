@@ -29,6 +29,10 @@ class RegisterController extends Controller {
         $userId = $request->user;
         $lock = Lock::Find($lockId);
         $user = User::Find($userId);
+        $log = new \App\Log;
+        $log->acao = "Adicionou RFid para usuário: " .$user->name. "Na tranca: " .$lock->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $alt = $user->update(['rf_key' => $lock->module->pub_topic]);
 
@@ -46,6 +50,10 @@ class RegisterController extends Controller {
 
     public function destroy($id) {
         $reg = User::find($id);
+        $log = new \App\Log;
+        $log->acao = "Exclusão Usuário - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $reg->delete();
         return redirect()->route('users.index')

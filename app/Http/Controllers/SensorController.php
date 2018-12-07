@@ -94,6 +94,10 @@ class SensorController extends Controller {
     public function store(Request $request) {
         $dados = $request->all();
         $inc = Sensor::create($dados);
+        $log = new \App\Log;
+        $log->acao = "Cadastro Sensor - " .$request->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         if ($inc) {
             return redirect()->route('sensor.index')->with('status', $request->nome . ' Incluido! ');
@@ -148,11 +152,15 @@ class SensorController extends Controller {
         $dados = $request->all();
 
         $reg = Sensor::find($id);
+        $log = new \App\Log;
+        $log->acao = "Alteração Sensor - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $alt = $reg->update($dados);
 
         if ($alt) {
-            return redirect()->route('sensor.index')->with('status', $request->nome . ' Alterado! ');
+            return redirect()->route('sensor.index')->with('status', $request->name . ' Alterado! ');
         }
     }
 
@@ -164,10 +172,14 @@ class SensorController extends Controller {
      */
     public function destroy($id) {
         $reg = Sensor::find($id);
+        $log = new \App\Log;
+        $log->acao = "Exclusão Sensor - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $reg->delete();
         return redirect()->route('sensor.index')
-                        ->with('status', $reg->nome . ' Deletado com Sucesso');
+                        ->with('status', $reg->name . ' Deletado com Sucesso');
     }
 
 }

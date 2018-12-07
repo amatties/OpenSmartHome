@@ -14,9 +14,12 @@ use Illuminate\Http\Request;
 */
 
 
-
+Route::resource('/sensor', 'Api\SensorController');
 Route::resource('/light', 'Api\LightController');
 Route::resource('/lock', 'Api\LockController');
+Route::get('/login/{user}/{pass}', 'Api\loginController@login');
+Route::post('/open','Api\LockController@open');
+Route::get('/graph','Api\LightController@teste');
 Route::post('/acommand','Api\LightController@command');
 Route::post('/receive','LockController@receiveData');
 Route::post('/sensor','SensorController@receiveData');

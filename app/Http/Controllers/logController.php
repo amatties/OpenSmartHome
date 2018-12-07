@@ -1,39 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Lock;
-use App\Http\Controllers\phpMQTT;
 
-class LockController extends Controller
+class logController extends Controller
 {
-    
-    public function open(Request $request) {
-
-        $lockid = $request->id;
-        $lock = Lock::Find($lockid);
-        $this->sendData($lock->module->sub_topic, "open");
-
-        return 1;
-    }
-
-    public function sendData($topico, $mensagem) {
-
-        $server = "127.0.0.1";
-        $port = 1883;
-        $username = "";
-        $password = "";
-        $client_id = "clienteweb";
-        $mqtt = new phpMQTT($server, $port, $client_id);
-        if ($mqtt->connect(true, NULL, $username, $password)) {
-            $mqtt->publish($topico, $mensagem, 0);
-
-            $mqtt->close();
-        }
-        return;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -41,9 +13,7 @@ class LockController extends Controller
      */
     public function index()
     {
-        $locks = Lock::all();
-                
-        return response()->json($locks);
+        //
     }
 
     /**

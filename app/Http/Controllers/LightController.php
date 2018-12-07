@@ -115,9 +115,14 @@ class LightController extends Controller {
     public function store(Request $request) {
         $dados = $request->all();
         $inc = Light::create($dados);
+        
+        $log = new \App\Log;
+        $log->acao = "Cadastro iluminação - " .$request->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         if ($inc) {
-            return redirect()->route('light.index')->with('status', $request->nome . ' Incluido! ');
+            return redirect()->route('light.index')->with('status', $request->name . ' Incluido! ');
         }
     }
 
@@ -141,6 +146,7 @@ class LightController extends Controller {
         $reg = Light::find($id);
         $modules = Module::orderBy('name')->get();
         $acao = 2;
+        
 
         return view('light_form', compact('reg', 'acao', 'modules'));
     }
@@ -156,11 +162,15 @@ class LightController extends Controller {
         $dados = $request->all();
 
         $reg = Light::find($id);
+        $log = new \App\Log;
+        $log->acao = "Alteração iluminação - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $alt = $reg->update($dados);
 
         if ($alt) {
-            return redirect()->route('light.index')->with('status', $request->nome . ' Alterado! ');
+            return redirect()->route('light.index')->with('status', $request->name . ' Alterado! ');
         }
     }
 
@@ -172,10 +182,14 @@ class LightController extends Controller {
      */
     public function destroy($id) {
         $reg = Light::find($id);
+        $log = new \App\Log;
+        $log->acao = "Exclusão iluminação - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $reg->delete();
         return redirect()->route('light.index')
-                        ->with('status', $reg->nome . ' Deletado com Sucesso');
+                        ->with('status', $reg->name . ' Deletado com Sucesso');
     }
 
 }

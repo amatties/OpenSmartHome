@@ -98,10 +98,10 @@
 <script type="text/javascript">
         $(function () {
                 $('#datetimepickerini').datetimepicker({
-                    format: 'YYYY-MM-DD'
+                    format: 'YYYY-MM-DD hh:mm'
                 });
                  $('#datetimepickerend').datetimepicker({
-                    format: 'YYYY-MM-DD'
+                    format: 'YYYY-MM-DD hh:mm'
                 });
             });
     </script>

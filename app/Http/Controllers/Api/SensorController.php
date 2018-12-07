@@ -4,36 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Lock;
-use App\Http\Controllers\phpMQTT;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Sensor_Data;
 
-class LockController extends Controller
+class SensorController extends Controller
 {
-    
-    public function open(Request $request) {
-
-        $lockid = $request->id;
-        $lock = Lock::Find($lockid);
-        $this->sendData($lock->module->sub_topic, "open");
-
-        return 1;
-    }
-
-    public function sendData($topico, $mensagem) {
-
-        $server = "127.0.0.1";
-        $port = 1883;
-        $username = "";
-        $password = "";
-        $client_id = "clienteweb";
-        $mqtt = new phpMQTT($server, $port, $client_id);
-        if ($mqtt->connect(true, NULL, $username, $password)) {
-            $mqtt->publish($topico, $mensagem, 0);
-
-            $mqtt->close();
-        }
-        return;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -41,9 +17,13 @@ class LockController extends Controller
      */
     public function index()
     {
-        $locks = Lock::all();
+         $tipos = Sensor_Data::select('type')
                 
-        return response()->json($locks);
+                ->groupBy('type')
+                ->get();
+       
+
+        return response()->json($tipos);
     }
 
     /**
@@ -73,9 +53,21 @@ class LockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+     public function show($nome) {
+
+         $date = Carbon::today()->toDateString();
+
+        $dados = DB::table('sensor_datas')
+                ->where('type', $nome)
+                ->whereDate('created_at', '=', $date)
+                ->get();
+        
+        
+        
+       
+
+        return response()->json(array('dados'=>$dados, 'titulo'=>$nome, 'data'=>$date));
+         
     }
 
     /**

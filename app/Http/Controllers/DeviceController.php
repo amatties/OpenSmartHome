@@ -46,10 +46,14 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
+        $log = new \App\Log;
+        $log->acao = "Cadastro Dispositivo - " .$request->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
         $inc = Device::create($dados);
 
         if ($inc) {
-            return redirect()->route('device.index')->with('status', $request->nome . ' Incluido! ');
+            return redirect()->route('device.index')->with('status', $request->name . ' Incluido! ');
         }
     }
 
@@ -91,11 +95,15 @@ class DeviceController extends Controller
           $dados = $request->all();
 
         $reg = Device::find($id);
+        $log = new \App\Log;
+        $log->acao = "Alteração Dispositivo - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $alt = $reg->update($dados);
 
         if ($alt) {
-            return redirect()->route('device.index')->with('status', $request->nome . ' Alterado! ');
+            return redirect()->route('device.index')->with('status', $request->name . ' Alterado! ');
         }
     }
 
@@ -108,9 +116,13 @@ class DeviceController extends Controller
     public function destroy($id)
     {
         $reg = Device::find($id);
+        $log = new \App\Log;
+        $log->acao = "Exclusão Dispositivo - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $reg->delete();
         return redirect()->route('device.index')
-                        ->with('status', $reg->nome . ' Deletado com Sucesso');
+                        ->with('status', $reg->name . ' Deletado com Sucesso');
     }
 }

@@ -59,13 +59,14 @@ class LightController extends Controller
      */
      public function index() {
         $lights = Light::all();
+      
 
-
-        //return  compact('lights');
+       // return  compact('lights');
         return response()->json($lights);
-    }
-
-    /**
+        
+         }
+    
+       /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

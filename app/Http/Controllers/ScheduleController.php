@@ -4,13 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Schedule;
+use App\Light;
 
 class ScheduleController extends Controller
 {
     
     public function novo($id) {
+        
+        
+        
+        $reg = Light::find($id);
+         
+        
+
+
+
+//$acao = 1;
        
-         return view('schedule_form', compact('acao','id'));
+        // return view('schedule_form', compact('acao','id'));
     }
     
     

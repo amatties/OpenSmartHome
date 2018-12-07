@@ -88,8 +88,7 @@ class LockController extends Controller {
     public function create() {
         $acao = 1;
         $modules = Module::orderBy('name')->get();
-
-
+       
 
         return view('lock_form', compact('acao', 'modules'));
     }
@@ -103,9 +102,13 @@ class LockController extends Controller {
     public function store(Request $request) {
         $dados = $request->all();
         $inc = Lock::create($dados);
+        $log = new \App\Log;
+        $log->acao = "Cadastro Tranca - " .$request->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         if ($inc) {
-            return redirect()->route('lock.index')->with('status', $request->nome . ' Incluido! ');
+            return redirect()->route('lock.index')->with('status', $request->name . ' Incluido! ');
         }
     }
 
@@ -144,11 +147,15 @@ class LockController extends Controller {
         $dados = $request->all();
 
         $reg = Lock::find($id);
+        $log = new \App\Log;
+        $log->acao = "Alteração Tranca - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $alt = $reg->update($dados);
 
         if ($alt) {
-            return redirect()->route('lock.index')->with('status', $request->nome . ' Alterado! ');
+            return redirect()->route('lock.index')->with('status', $request->name . ' Alterado! ');
         }
     }
 
@@ -160,10 +167,14 @@ class LockController extends Controller {
      */
     public function destroy($id) {
         $reg = Lock::find($id);
+        $log = new \App\Log;
+        $log->acao = "Exclusão Tranca - " .$reg->name;
+        $log->user_id = \Auth::user()->id;
+        $log->save();
 
         $reg->delete();
         return redirect()->route('lock.index')
-                        ->with('status', $reg->nome . ' Deletado com Sucesso');
+                        ->with('status', $reg->name . ' Deletado com Sucesso');
     }
 
 }
